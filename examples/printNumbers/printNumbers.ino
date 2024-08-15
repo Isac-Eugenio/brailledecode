@@ -103,8 +103,8 @@ void loop() //loop
       }
     }
 
-    else Serial.println("code braile not found"); // Caso não printa não encontrado
-
+    else if(key.getCharacters() == '*' && key.getCharacters() != '$') Serial.println("code braile not found"); // Caso não, 
+   // printa não encontrado
     key.reset(); // reseta todos os botões
   }
 
