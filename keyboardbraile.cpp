@@ -16,8 +16,9 @@
  * 
  * - Informações sobre essa versão:
  * 
- *   . Data: 31/07/2024
- *   . Versão: 1.0.0
+ *   . Data: 14/08/2024
+ *   . Versão: 1.0.1
+ *   . Atualização: Adicionado a função getNumberCharacters() para impressão numerica
  */
 
 //******************************** INICIO DO PROGRAMA ****************************************** */
@@ -61,23 +62,46 @@ String KeyboardBraille::read() // Função de leitura dos botões que retorna o 
 
 }
 
+char KeyboardBraille::getNumberCharacters() // Função de impresssão do caractere numerioco definido 
+{    
+
+     for(int i = 0; i < 10; i++)         // Verifica todos os array de A a j arrays binario bitletters
+     {
+          if(read() == bitletters[i])   // Confirma se há algum array binario compativel com  o read()
+          {
+               return charNumbers[i];  //  retorna o caractere numerico de acordo com indice
+               break;                 // Se encontrado ele interrompe o loop para otimização
+          }
+                 
+     }
+  
+     return '*';                   // Se não for encontrado nem um array compativel a função retornará 0 
+
+     reset();  // Reseta todos os Botões
+     
+} 
+
+// Fim da Função getCharacters()
+
 char KeyboardBraille::getCharacters() // Função de impresssão do caractere alfabetico definido
-{
+{    
+    
      for(int i = 0; i < 26; i++)     // Verifica todos os 26 arrays binario do bitletters
      {
         if(read() == bitletters[i]) // Confirma se há algum array binario compativel com  o read() 
         {
           return charletters[i];   //  retorna o caractere alfabetico de acordo com indice
-          break;                  // Se encontrado ele para o loop para otimização
+          break;                  // Se encontrado ele interrompe o loop para otimização
         }
+        else if(read() == numberActivate)return '$';
      }
-     return '0';                // Se não for encontrado nem um array compativel a função retornará 0
+     return '*';                // Se não for encontrado nem um array compativel a função retornará 0
 
-     for(int i = 0; i < 6; i++) statePins[i] = 0; // Reseta todos os Botões
+     reset(); // Reseta todos os Botões
 
 }
 
-// Fim da Função read()
+// Fim da Função getCharacters()
 
 char KeyboardBraille::getletters(int letters) // Função de printagem manual do caractere do alfabeto
 {
@@ -94,4 +118,3 @@ void KeyboardBraille::reset() // Função para resetar os estado de todos os bot
 // Fim da função reset()
 
 //******************************** FIM DO PROGRAMA ****************************************** */
-
