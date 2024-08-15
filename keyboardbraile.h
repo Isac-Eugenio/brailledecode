@@ -16,8 +16,9 @@
  * 
  * - Informações sobre essa versão:
  * 
- *   . Data: 31/07/2024
- *   . Versão: 1.0.0
+ *   . Data: 14/08/2024s
+ *   . Versão: 1.0.1
+ *   . Atualização: Adicionado a função getNumberCharacters() para impressão numerica
  */
 
 //******************************** Inicio do Programa **************************************** */
@@ -42,11 +43,11 @@ class KeyboardBraille {
   // As funçoes e dados que o usuario terá acesso 
 
   public:
-
-    KeyboardBraille(int pin0, int pin1, int pin2, int pin3, int pin4, int pin5); // Função principal da classe
-    String read();                                                               // Função de leitura do array de botões
-    char getCharacters(), getletters(int letter);                                // Funções que imprimem a letra para usuario
-    void begin(), reset();                                                       // Função de inicializão e reset dos dados
+    
+    KeyboardBraille(int pin0, int pin1, int pin2, int pin3, int pin4, int pin5);   // Função principal da classe
+    String read(), numberActivate = "001111", numberDecimal = "010000";            // Função de leitura do array de botões
+    char getCharacters(), getletters(int letter), getNumberCharacters(); // Funções que imprimem a letra para usuario
+    void begin(), reset();                                                         // Função de inicializão e reset dos dados
 
   // ********************** Fim das Funções Pública ********************************************************** */
 
@@ -71,7 +72,9 @@ class KeyboardBraille {
 
     }; // fim do Array
 
-    const char charletters[26] = // Array de caracteres do alfabeto latino
+    const String bitSpecialCharacters[9] = {};
+
+    const char charletters[26] = // Array de caracteres do alfabeto
     {
        'A', 'B', 'C', 'D', 'E',  // de A a E
        'F', 'G', 'H', 'I', 'J',  // de F a J
@@ -81,6 +84,15 @@ class KeyboardBraille {
                  'z'             // de U a Y
 
     }; // fim do Array
+
+    const char charNumbers[10] = 
+    {
+       '1', '2', '3', '4', '5',  // de 1 a 5
+       '6', '7', '8', '9', '0'   // de 6 a 9 mais 0 = j
+
+    }; // fim do Array
+    
+    const char charSpecialCharacters[9] = {}; //Adições Futuras
 
    // ******************************* Fim das Funções Particulares ****************************************************
    
