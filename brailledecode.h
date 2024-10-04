@@ -17,7 +17,7 @@
  * - Informações sobre essa versão:
  * 
  *   . Data: 14/08/2024s
- *   . Versão: 1.0.1
+ *   . Versão: 2.0.0
  *   . Atualização: Adicionado a função getNumberCharacters() para impressão numerica
  */
 
