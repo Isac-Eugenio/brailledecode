@@ -1,9 +1,9 @@
 /**
- * - Projeto Bibloteca keyboardbraile
+ * - Projeto Bibloteca brailledecode
  * 
  * - Sobre o arquivo:
  * 
- *   . Nome: keyboardbraile.h
+ *   . Nome: brailledecode.h
  *   . Objetivo do Arquivo: Definições dos objetos e metodos da bibloteca
  * 
  * - Autores :
@@ -25,8 +25,8 @@
 
 //Definições padrão do sistema
 
-#ifndef KEYBOARDBRAILLE_H
-#define KEYBOARDBRAILLE_H
+#ifndef BRAILLEDECODE_H
+#define BRAILLEDECODE_H
 
 //Chamando as funçoes padrões da Arduino
 
@@ -36,7 +36,7 @@
 
 // Cria um objeto onde está as propiedades da bibloteca
 
-class KeyboardBraille {
+class BrailleDecode {
 
   // ****************************** Funções Publica ********************************************************
 
@@ -44,7 +44,7 @@ class KeyboardBraille {
 
   public:
     
-    KeyboardBraille(int pin0, int pin1, int pin2, int pin3, int pin4, int pin5);   // Função principal da classe
+    BrailleDecode(int pin0, int pin1, int pin2, int pin3, int pin4, int pin5);   // Função principal da classe
     String read(), numberActivate = "001111", numberDecimal = "010000";            // Função de leitura do array de botões
     char getCharacters(), getletters(int letter), getNumberCharacters(); // Funções que imprimem a letra para usuario
     void begin(), reset();                                                         // Função de inicializão e reset dos dados
