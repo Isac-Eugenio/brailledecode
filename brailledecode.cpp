@@ -1,9 +1,9 @@
 /**
- * - Projeto Bibloteca keyboardbraile
+ * - Projeto Bibloteca brailledecode
  * 
  * - Sobre o arquivo:
  * 
- *   . Nome: keyboardbraile.cpp
+ *   . Nome: brailedecode.cpp
  *   . Objetivo do Arquivo: Adicionando as Propiedades das Funções Definidas no .h
  * 
  * - Autores :
@@ -23,13 +23,13 @@
 
 //******************************** INICIO DO PROGRAMA ****************************************** */
 
-#include "keyboardbraile.h" //chamada do Arquivo .h
+#include "brailledecode.h" //chamada do Arquivo .h
 #include "Arduino.h"        //chamada das funçoes do arduino
 
 static bool statePins[6] = {0}; // Array para Armazenar os Estado dos Botões permanentemente
 
 
-KeyboardBraille::KeyboardBraille(int pin0, int pin1, int pin2, int pin3, int pin4, int pin5) // Chamada da função principal do código
+BrailleDecode::BrailleDecode(int pin0, int pin1, int pin2, int pin3, int pin4, int pin5) // Chamada da função principal do código
 {    
      // Move a pinagem dos botões para um array global, assim sendo possivel ser usado em outras funções
 
@@ -43,12 +43,12 @@ KeyboardBraille::KeyboardBraille(int pin0, int pin1, int pin2, int pin3, int pin
 
 // fim da função principal
 
-void KeyboardBraille::begin() // Função de inicialização 
+void BrailleDecode::begin() // Função de inicialização 
 {
      for(int i = 0; i < 6; i++)pinMode(buttonPins[i], INPUT_PULLUP); // definindo todos os botões como pull-up
 }
 
-String KeyboardBraille::read() // Função de leitura dos botões que retorna o array binario
+String BrailleDecode::read() // Função de leitura dos botões que retorna o array binario
 {
   binString = ""; // Variavel de armazenamento do array binario
 
@@ -62,7 +62,7 @@ String KeyboardBraille::read() // Função de leitura dos botões que retorna o 
 
 }
 
-char KeyboardBraille::getNumberCharacters() // Função de impresssão do caractere numerioco definido 
+char BrailleDecode::getNumberCharacters() // Função de impresssão do caractere numerioco definido 
 {    
 
      for(int i = 0; i < 10; i++)         // Verifica todos os array de A a j arrays binario bitletters
@@ -83,7 +83,7 @@ char KeyboardBraille::getNumberCharacters() // Função de impresssão do caract
 
 // Fim da Função getCharacters()
 
-char KeyboardBraille::getCharacters() // Função de impresssão do caractere alfabetico definido
+char BrailleDecode::getCharacters() // Função de impresssão do caractere alfabetico definido
 {    
     
      for(int i = 0; i < 26; i++)     // Verifica todos os 26 arrays binario do bitletters
@@ -103,12 +103,12 @@ char KeyboardBraille::getCharacters() // Função de impresssão do caractere al
 
 // Fim da Função getCharacters()
 
-char KeyboardBraille::getletters(int letters) // Função de printagem manual do caractere do alfabeto
+char BrailleDecode::getletters(int letters) // Função de printagem manual do caractere do alfabeto
 {
    return charletters[letters]; // retorna o caracter
 }
 
-void KeyboardBraille::reset() // Função para resetar os estado de todos os botões
+void BrailleDecode::reset() // Função para resetar os estado de todos os botões
 {   
      binString = "";          // reseta a string de armazenamento (Por segurança)
      for(int i = 0; i < 6; i++)statePins[i] = 0; // Reseta o estado de todos os botões
