@@ -1,5 +1,5 @@
 /**
- * - Projeto Bibloteca keyboardbraile
+ * - Projeto Bibloteca brailledecode
  * 
  * - Sobre o arquivo:
  * 
@@ -24,12 +24,12 @@
 
 
 
-#include "keyboardbraile.h" // Chamando a bibloteca keyboardbraile
+#include "brailledecode.h" // Chamando a bibloteca brailledecode
 
 #define Ok 10  // Botão para confirmação
 #define res 11 // Botão para resetar os botões das células
 
-KeyboardBraille key(4, 5, 6, 7, 8, 9); // Definindo a pinagem dos botões
+BrailleDecode key(4, 5, 6, 7, 8, 9); // Definindo a pinagem dos botões
 
 //******************* Inicio do Setup ******************************************************** */
 
