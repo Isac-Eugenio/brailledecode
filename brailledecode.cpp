@@ -1,4 +1,4 @@
-/**
+/ **
  * - Projeto: Biblioteca BrailleDecode
  * 
  * - Sobre o Arquivo:
@@ -17,7 +17,7 @@
  *   . Atualização: Adicionada a função decodeNumber() para suporte numérico
  */
 
-//******************************** INÍCIO DO PROGRAMA ******************************************
+// ******************************** INÍCIO DO PROGRAMA ******************************************
 
 #include "brailledecode.h"           // Cabeçalho principal da biblioteca
 #include "Arduino.h"                 // Funções do Arduino
@@ -25,11 +25,11 @@
 #include "numbers.h"                 // Arrays binários dos números
 #include "specialcharacters.h"      // Arrays de caracteres especiais
 
-//******************************** VARIÁVEIS GLOBAIS ********************************************
+// ******************************** VARIÁVEIS GLOBAIS ********************************************
 
 static bool statePins[6] = {0};     // Estados dos botões
 
-//******************************** IMPLEMENTAÇÃO DAS FUNÇÕES ***********************************
+// ******************************** IMPLEMENTAÇÃO DAS FUNÇÕES ***********************************
 
 BrailleDecode::BrailleDecode(const int buttonPins[6])
 {
@@ -108,4 +108,4 @@ void BrailleDecode::reset()
     }
 }
 
-//******************************** FIM DO PROGRAMA *********************************************
+// ******************************** FIM DO PROGRAMA *********************************************
