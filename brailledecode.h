@@ -32,6 +32,8 @@
 
 #include "Arduino.h"
 
+//******************************** Fim das Definições Padrões **************************************** */
+
 //************************ Inicio da classe ************************************************************** */
 
 // Cria um objeto onde está as propiedades da bibloteca
@@ -44,10 +46,10 @@ class BrailleDecode {
 
   public:
     
-    BrailleDecode(int pin0, int pin1, int pin2, int pin3, int pin4, int pin5);   // Função principal da classe
-    String read(), numberActivate = "001111", numberDecimal = "010000";            // Função de leitura do array de botões
+    BrailleDecode(const int pins[6]); // Função principal da classe
+    String read();    // Função de leitura do array de botões
     char getCharacters(), getletters(int letter), getNumberCharacters(); // Funções que imprimem a letra para usuario
-    void begin(), reset();                                                         // Função de inicializão e reset dos dados
+    void reset();                                    // Função de inicializão e reset dos dados
 
   // ********************** Fim das Funções Pública ********************************************************** */
 
@@ -70,29 +72,7 @@ class BrailleDecode {
       "101001", "111001", "010111", "101101", "101111", // de U a Y
                           "101011" // Z
 
-    }; // fim do Array
-
-    const String bitSpecialCharacters[9] = {};
-
-    const char charletters[26] = // Array de caracteres do alfabeto
-    {
-       'A', 'B', 'C', 'D', 'E',  // de A a E
-       'F', 'G', 'H', 'I', 'J',  // de F a J
-       'K', 'L', 'M', 'N', 'O',  // de K a o
-       'P', 'Q', 'R', 'S', 'T',  // de P a T
-       'U', 'V', 'W', 'X', 'y',  // de U a Y
-                 'z'             // de U a Y
-
-    }; // fim do Array
-
-    const char charNumbers[10] = 
-    {
-       '1', '2', '3', '4', '5',  // de 1 a 5
-       '6', '7', '8', '9', '0'   // de 6 a 9 mais 0 = j
-
-    }; // fim do Array
-    
-    const char charSpecialCharacters[9] = {}; //Adições Futuras
+    }; // fim do Arra
 
    // ******************************* Fim das Funções Particulares ****************************************************
    
@@ -104,4 +84,3 @@ class BrailleDecode {
 #endif //Fim das definições Padrões
 
 //***************************************** Inicio do Programa ********************************************************** */
-

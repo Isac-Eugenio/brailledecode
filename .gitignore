@@ -1,0 +1,12 @@
+# Arquivos a serem ignorados pelo Git
+
+# *** Arduino ***
+
+# Arquivos para simulação
+
+
+# brailledecode.hex
+# brailledecode.ino
+# brailledecode.ino.d
+# brailledecode.sim1
+# brailledecode.ino.cfg
