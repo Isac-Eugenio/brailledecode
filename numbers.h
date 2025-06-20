@@ -10,7 +10,7 @@ namespace Numbers {
     };
 
     
-    constexpr const char charNumbers[10] = 
+    constexpr const char characther[10] = 
     {
        '1', '2', '3', '4', '5',  // de 1 a 5
        '6', '7', '8', '9', '0'   // de 6 a 9 mais 0 = j

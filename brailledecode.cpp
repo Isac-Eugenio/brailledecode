@@ -25,36 +25,35 @@
 
 #include "brailledecode.h" //chamada do Arquivo .h
 #include "Arduino.h"        //chamada das funçoes do arduino
+#include "letters.h" //chamada do arquivo letters.h que contem os arrays binarios do alfabeto
+#include "numbers.h" //chamada do arquivo numbers.h que contem os arrays binarios dos numeros
+#include "specialcharacters.h" //chamada do arquivo specialcharacters.h que contem os arrays binarios dos caracteres especiais
+
+//******************************** FIM DA CHAMADA DOS ARQUIVOS ****************************************** */
 
 static bool statePins[6] = {0}; // Array para Armazenar os Estado dos Botões permanentemente
 
+Letters letras; // Instancia da classe Letters para acessar os arrays binarios do alfabeto
+Numbers numeros; // Instancia da classe Numbers para acessar os arrays binarios dos numeros
+SpecialCharacters especial; // Instancia da classe SpecialCharacters para acessar os arrays binarios dos caracteres especiais
 
-BrailleDecode::BrailleDecode(int pin0, int pin1, int pin2, int pin3, int pin4, int pin5) // Chamada da função principal do código
+
+BrailleDecode::BrailleDecode(const int buttonPins[6]) // Chamada da função principal do código
 {    
-     // Move a pinagem dos botões para um array global, assim sendo possivel ser usado em outras funções
-
-     buttonPins[0] = pin0; // Move o  pino 0 para o a posição 0 do array
-     buttonPins[1] = pin1; // Move o  pino 1 para o a posição 1 do array
-     buttonPins[2] = pin2; // Move o  pino 2 para o a posição 3 do array
-     buttonPins[3] = pin3; // Move o  pino 4 para o a posição 5 do array
-     buttonPins[4] = pin4; // Move o  pino 6 para o a posição 6 do array
-     buttonPins[5] = pin5; // Move o  pino 7 para o a posição 7 do array
+     for(int i = 0; i < 6; i++){
+          _buttonPins[i] = buttonPins;
+          pinMode(_buttonPins[i], INPUT_PULLUP); // Define os pinos dos botões como entrada com pull-up
+          statePins[i] = 0; // Inicializa o estado dos botões como 0 (não pressionado)
+     }
 }
 
-// fim da função principal
-
-void BrailleDecode::begin() // Função de inicialização 
+String BrailleDecode::readBinarySequence() // Função de leitura dos botões que retorna o array binario
 {
-     for(int i = 0; i < 6; i++)pinMode(buttonPins[i], INPUT_PULLUP); // definindo todos os botões como pull-up
-}
-
-String BrailleDecode::read() // Função de leitura dos botões que retorna o array binario
-{
-  binString = ""; // Variavel de armazenamento do array binario
+     _binString = ""; // Variavel de armazenamento do array binario
 
      for(int i = 0; i < 6; i++) //Verifica os 6 botões citado no array da pinagem
      {
-         if(!digitalRead(buttonPins[i]))statePins[i] = 1; //Verifica se o botão X foi pressionado se sim ele retorna 1
+         if(!digitalRead(_buttonPins[i]))statePins[i] = 1; //Verifica se o botão X foi pressionado se sim ele retorna 1
          binString += (statePins[i] ? '1' : '0');         // Concatenua o sinal do botao na string
      }
   
@@ -62,14 +61,41 @@ String BrailleDecode::read() // Função de leitura dos botões que retorna o ar
 
 }
 
-char BrailleDecode::getNumberCharacters() // Função de impresssão do caractere numerioco definido 
+
+
+char BrailleDecode::decodeCharacter() // Função de impresssão do caractere alfabetico definido
+{    
+    
+     for(int i = 0; i < 26; i++)     // Verifica todos os 26 arrays binario do bitletters
+     {
+        if(readBinarySequence() == letras.bit[i]) // Confirma se há algum array binario compativel com  o read() 
+        {
+          return letra.characther[i];   //  retorna o caractere alfabetico de acordo com indice
+          break;                  // Se encontrado ele interrompe o loop para otimização
+        }
+        else if(readBinarySequence() == especial.NumberActivate)return '$';
+     }
+     return '*';                // Se não for encontrado nem um array compativel a função retornará 0
+
+     resetState(); // Reseta todos os Botões
+
+}
+
+void BrailleDecode::resetState() // Função para resetar os estado de todos os botões
+{   
+     binString = "";          // reseta a string de armazenamento (Por segurança)
+     for(int i = 0; i < 6; i++)statePins[i] = 0; // Reseta o estado de todos os botões
+
+}
+
+char BrailleDecode::decodeNumber() // Função de impresssão do caractere numerioco definido 
 {    
 
      for(int i = 0; i < 10; i++)         // Verifica todos os array de A a j arrays binario bitletters
      {
-          if(read() == bitletters[i])   // Confirma se há algum array binario compativel com  o read()
+          if(readBinarySequence() == numeros.bit[i])   // Confirma se há algum array binario compativel com  o read()
           {
-               return charNumbers[i];  //  retorna o caractere numerico de acordo com indice
+               return numeros.characther[i];  //  retorna o caractere numerico de acordo com indice
                break;                 // Se encontrado ele interrompe o loop para otimização
           }
                  
@@ -77,43 +103,12 @@ char BrailleDecode::getNumberCharacters() // Função de impresssão do caracter
   
      return '*';                   // Se não for encontrado nem um array compativel a função retornará 0 
 
-     reset();  // Reseta todos os Botões
+     resetState();  // Reseta todos os Botões
      
 } 
 
 // Fim da Função getCharacters()
 
-char BrailleDecode::getCharacters() // Função de impresssão do caractere alfabetico definido
-{    
-    
-     for(int i = 0; i < 26; i++)     // Verifica todos os 26 arrays binario do bitletters
-     {
-        if(read() == bitletters[i]) // Confirma se há algum array binario compativel com  o read() 
-        {
-          return charletters[i];   //  retorna o caractere alfabetico de acordo com indice
-          break;                  // Se encontrado ele interrompe o loop para otimização
-        }
-        else if(read() == numberActivate)return '$';
-     }
-     return '*';                // Se não for encontrado nem um array compativel a função retornará 0
-
-     reset(); // Reseta todos os Botões
-
-}
-
-// Fim da Função getCharacters()
-
-char BrailleDecode::getletters(int letters) // Função de printagem manual do caractere do alfabeto
-{
-   return charletters[letters]; // retorna o caracter
-}
-
-void BrailleDecode::reset() // Função para resetar os estado de todos os botões
-{   
-     binString = "";          // reseta a string de armazenamento (Por segurança)
-     for(int i = 0; i < 6; i++)statePins[i] = 0; // Reseta o estado de todos os botões
-
-}
 
 // Fim da função reset()
 
