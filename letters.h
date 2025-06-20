@@ -1,9 +1,12 @@
-// Letters.h
-#ifndef LETTERS_H
-#define LETTERS_H
+// letters.h
+#pragma once
+// ou use #ifndef LETTERS_H ... #endif se preferir compatibilidade máxima
+
+// Biblioteca de caracteres alfabéticos do Braille padrão
 
 namespace Letters {
-  
+
+    // Representação binária dos caracteres de A a Z no padrão Braille
     constexpr const char* bit[26] = {
         "100000", "110000", "100100", "100110", "100010", // A-E
         "110100", "110110", "110010", "010100", "010110", // F-J
@@ -13,7 +16,8 @@ namespace Letters {
         "101011"                                           // Z
     };
 
-    constexpr char characther[26] = {
+    // Caracteres correspondentes em texto (letras minúsculas)
+    constexpr char character[26] = {
         'a', 'b', 'c', 'd', 'e',
         'f', 'g', 'h', 'i', 'j',
         'k', 'l', 'm', 'n', 'o',
@@ -23,5 +27,3 @@ namespace Letters {
     };
 
 }
-
-#endif

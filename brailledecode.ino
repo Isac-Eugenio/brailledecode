@@ -1,70 +1,68 @@
 /**
- * - Projeto Bibloteca brailledecode
+ * Projeto: Biblioteca BrailleDecode
  * 
- * - Sobre o arquivo:
+ * Arquivo: printLetters.ino
+ * Objetivo: Exemplo de uso da biblioteca BrailleDecode para imprimir letras do alfabeto Braille
  * 
- *   . Nome: printLetters
- *   . Objetivo do Arquivo: Arquivo exemplo da bibloteca onde printa a letra correspodente
+ * Autor: Isac Eugenio da Silva Santos
  * 
- * - Autores :
- *  
- *   . Isac Eugenio da Silva Santos
- * 
- * - Objetivo:
- * 
- *   . Uma bibloteca que converta uma sequencia binaria seguindo o alfabeto Braille em texto
- * 
- * - Informações sobre essa versão:
- * 
- *   . Data: 31/07/2024
- *   . Versão: 1.0.0
+ * Data: 31/07/2024
+ * Versão: 1.0.0
  */
 
-//************************************ INICIO DO PROGRAMA ************************************* */
+//************************************ INÍCIO DO PROGRAMA *************************************/
 
-#include "brailledecode.h" // Chamando a bibloteca brailledecode
+#include "brailledecode.h"  // Inclusão da biblioteca BrailleDecode
 
-#define OK 2               // Botão para confirmação 
-#define res 3             // Botão para resetar os botões da célula
- 
+#define OK   2   // Pino do botão de confirmação
+#define RES  3   // Pino do botão de reset
 
-BrailleDecode key(4,5,6,7,8,9);
-//******************* Inicio do Setup ******************************************************** */
+const int pinos[6] = {4, 5, 6, 7, 8, 9}; // Pinos conectados aos botões da célula Braille
+BrailleDecode key(pinos);               // Instância da classe BrailleDecode
 
-void setup() // setup
+//************************************ CONFIGURAÇÃO INICIAL ***********************************/
+
+void setup()
 { 
-  pinMode(res,INPUT_PULLUP); // Define o Botão Ok como pull-up
-  pinMode(OK,INPUT_PULLUP);  // Define o Botão reset como pull-up
-  Serial.begin(115200);      // Ativa a Serial com a velocidade 115200 bits
-  while(!Serial) continue;   // Verifica se a serial ativou caso não ele reinicia a serial
-  key.begin();               // Inicia os botões
+    pinMode(RES, INPUT_PULLUP); // Configura botão de reset como entrada pull-up
+    pinMode(OK, INPUT_PULLUP);  // Configura botão OK como entrada pull-up
+    Serial.begin(115200);       // Inicializa comunicação serial
 
+    while (!Serial);            // Aguarda ativação da porta serial (útil para placas como Leonardo)
 }
 
-//******************* Fim do Setup ******************************************************** */
+//************************************ LOOP PRINCIPAL *****************************************/
 
-//******************* Inicio do Loop ****************************************************** */
-
-void loop() //loop
+void loop()
 {
+    key.read(); // Lê o estado atual dos botões
 
-  key.read(); //Inicia a Leitura dos botões
+    if (!digitalRead(OK)) // Se o botão OK for pressionado
+    {
+        char letra = key.decodeCharacter(); // Decodifica a letra atual
 
-  if(!digitalRead(OK)) // Se o Botão OK for pressionado 
-  {
-    if(key.getCharacters() != '0')Serial.print(key.getCharacters()); // se a sequencia de botão for compativel printa a letra correspondente
-    else Serial.println("code braile not found"); // Caso não printa não encontrado
-    key.reset(); // reseta todos os botões
-    Serial.println(); // pula linha 
+        if (letra != '*')
+        {
+            Serial.print(letra); // Imprime a letra correspondente
+        }
+        else
+        {
+            Serial.println("Codigo Braille não reconhecido."); // Mensagem de erro
+        }
 
-  }
-  
-  if(!digitalRead(res))key.reset(); // se reset for pressionado ele reseta os botões
+        key.reset();       // Reseta os estados dos botões
+        Serial.println();  // Pula linha
+        delay(300);        // Evita múltiplas leituras no mesmo clique
+    }
 
-  delay(100); // delay para estabilizar o sistema
+    if (!digitalRead(RES))
+    {
+        key.reset();       // Reset manual via botão
+        Serial.println("Reset realizado.");
+        delay(300);        // Debounce
+    }
 
+    delay(100); // Delay para estabilidade geral
 }
 
-//******************* Fim do Loop ****************************************************** */
-
-//************************************ FIM DO PROGRAMA ************************************* */
+//************************************ FIM DO PROGRAMA ***************************************/

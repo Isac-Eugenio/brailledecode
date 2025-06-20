@@ -1,78 +1,45 @@
 /**
- * - Projeto Bibloteca brailledecode
+ * Projeto: Biblioteca BrailleDecode
  * 
- * - Sobre o arquivo:
+ * Sobre o arquivo:
+ *   - Nome: brailledecode.h
+ *   - Objetivo: Definições da interface da biblioteca para conversão de padrões Braille em texto
  * 
- *   . Nome: brailledecode.h
- *   . Objetivo do Arquivo: Definições dos objetos e metodos da bibloteca
+ * Autor:
+ *   - Isac Eugenio
  * 
- * - Autores :
- *   . Este arquivo define a interface da biblioteca BrailleDecode.
- *   . Responsável por converter uma sequência binária, baseada no padrão Braille, em texto legível.
- *   . Desenvolvido para uso com Arduino.
- *
- *   . Autor principal:
- *   . Isac Eugenio
+ * Descrição:
+ *   - Esta biblioteca converte uma sequência binária, baseada no padrão Braille, em texto legível.
+ *   - Desenvolvida para uso com Arduino.
  * 
- * - Objetivo:
- * 
- *   . Uma bibloteca que converta uma sequencia binaria seguindo o alfabeto Braille em texto
- * 
- * - Informações sobre essa versão:
- * 
- *   . Data: 20/06/2025
- *   . Versão: 2.0.1
+ * Informações da versão:
+ *   - Data: 20/06/2025
+ *   - Versão: 2.0.1
  */
 
-//******************************** Inicio do Programa **************************************** */
+#pragma once
+// Ou use #ifndef BRAILLEDECODE_H ... #define ... #endif para compatibilidade máxima
 
-//Definições padrão do sistema
+#include <Arduino.h>  // Funções padrão do Arduino
 
-#ifndef BRAILLEDECODE_H
-#define BRAILLEDECODE_H
-
-//Chamando as funçoes padrões da Arduino
-
-#include "Arduino.h"
-
-//******************************** Fim das Definições Padrões **************************************** */
-
-//************************ Inicio da classe ************************************************************** */
-
-// Cria um objeto onde está as propiedades da bibloteca
-
+// Classe principal da biblioteca
 class BrailleDecode {
 
-  // ****************************** Funções Publica ********************************************************
+public:
+    // Construtor
+    BrailleDecode(const int buttonPins[6]);
 
-  // As funçoes e dados que o usuario terá acesso 
-  public:
+    // Métodos públicos acessíveis ao usuário
+    String read();                 // Lê o estado dos botões e retorna a sequência binária
+    char decodeCharacter();       // Decodifica um caractere do alfabeto
+    char decodeNumber();          // Decodifica um caractere numérico
+    void reset();                 // Reinicializa os estados internos
 
-    BrailleDecode(const int buttonPins[6]); // Construtor principal da classe
-    String readBinarySequence();             // Lê o estado dos botões e retorna a sequência binária
-    char decodeCharacter();                  // Decodifica e retorna o caractere correspondente
-    char decodeLetter(int letterIndex);      // Decodifica e retorna a letra correspondente ao índice
-    char decodeNumber();                     // Decodifica e retorna o número correspondente
-    void resetState();                       // Reinicializa os dados internos
+    // (Opcional) Decodifica uma letra específica pelo índice - ainda não implementado
+    char decodeLetter(int letterIndex);
 
-  // ********************** Fim das Funções Pública ********************************************************** */
+private:
+    int _buttonPins[6];   // Pinos conectados aos botões físicos
+    String _binString;    // Armazena a sequência binária atual
 
-  // ******************************* Funções Particulares ****************************************************
-  
-  // As funçoes e dados restrito ao Usuario
-
-  private:
-
-    int _buttonPins[6]; // Array para Armazenar os pinos dos botões para facilitar a manipulação
-    String _binString;  // String que retorna a sequencia binaria dos botões
-
-   // ******************************* Fim das Funções Particulares ****************************************************
-   
-}; 
-
-//******************************************* Fim da classe ************************************************************ */
-
-
-#endif //Fim das definições Padrões
-
-//***************************************** Inicio do Programa ********************************************************** */
+};
